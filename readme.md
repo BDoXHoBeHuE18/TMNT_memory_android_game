@@ -11,11 +11,8 @@ Each mode represents a specific size of the playing field:
 - 3x3
 - 4x4
 - 5x5
-<br>
 
 You have to be very careful!
-
-<br>
 
 Since there are only 4 cards in the game (each turtle has its own card) sometimes you will have to find not just a pair of identical cards but also three/four/five identical cards.
 While you attempting to complete any mode game is counting the time you took to complete.<br>
