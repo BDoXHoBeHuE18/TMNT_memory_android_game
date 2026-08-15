@@ -7,6 +7,9 @@ import static java.lang.Thread.sleep;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
@@ -16,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -60,13 +64,27 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        WindowInsetsControllerCompat windowInsetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
+        windowInsetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+        WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+        if (controller != null) {
+            controller.setAppearanceLightStatusBars(true);
+        }
+
         setContentView(R.layout.activity_main2);
         RecordString = (TextView)findViewById(R.id.textView3);
         animScale = AnimationUtils.loadAnimation(this, R.anim.scale);
         animRotation = AnimationUtils.loadAnimation(this, R.anim.rotation);
         animSleepRotation = AnimationUtils.loadAnimation(this, R.anim.sleeprotation);
         animEffect = AnimationUtils.loadAnimation(this, R.anim.effects);
-        size = Integer.parseInt((getIntent().getExtras().get("size").toString()));
+        size = getIntent().getIntExtra("size", 2);
         Chrono = (Chronometer)findViewById(R.id.chronometer);
         Effect = (ImageView)findViewById(R.id.imageView4);
         width = getWindowManager().getDefaultDisplay().getWidth();
@@ -141,6 +159,7 @@ public class MainActivity2 extends AppCompatActivity {
                 b.setId(i*size+j);
                 b.setImageResource(cover);
                 b.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                b.setBackgroundColor(Color.TRANSPARENT);
                 Allstack.add(b);
                 TR.addView(b);
                 b.setOnClickListener(new View.OnClickListener(){
@@ -385,13 +404,13 @@ public class MainActivity2 extends AppCompatActivity {
 
     private void ShowDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Победа!");
+        builder.setTitle("You won!");
         builder.setIcon(android.R.drawable.btn_star);
         String string = "";
-        if (NewRecord) string += "Новый рекорд!\n";
-        string += "Хотите ли вы переиграть?";
+        if (NewRecord) string += "New Best Time!\n";
+        string += "Try again?";
         builder.setMessage(string);
-        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 ResetGame();
@@ -399,7 +418,7 @@ public class MainActivity2 extends AppCompatActivity {
                 Game();
             }
         });
-        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 finish();

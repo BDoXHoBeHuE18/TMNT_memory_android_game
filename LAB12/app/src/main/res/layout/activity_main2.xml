@@ -9,22 +9,23 @@
 
     <TableLayout
         android:id="@+id/tableLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="630dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></TableLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Chronometer
         android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="300dp"
         android:layout_marginTop="50dp"
-        android:format="%m:%s:%d"
-        android:textColor="@color/white"
+        android:layout_marginEnd="35dp"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -33,9 +34,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/audiowide"
         android:text="@string/timeString"
-        android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -44,35 +47,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="110dp"
+        android:fontFamily="@font/audiowide"
         android:text="@string/recordString"
-        android:textColor="@color/white"
-        android:textSize="30dp"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
+    
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginEnd="35dp"
+        android:fontFamily="@font/audiowide"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="30dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="410dp"
         android:layout_height="410dp"
-        android:layout_marginBottom="150dp"
         android:scaleType="centerInside"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tableLayout"
         app:srcCompat="@drawable/poooow" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

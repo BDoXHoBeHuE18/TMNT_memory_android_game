@@ -1,11 +1,16 @@
 package com.example.lab1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +24,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+
+        WindowInsetsControllerCompat windowInsetsController = new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView());
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
+        windowInsetsController.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+        WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+        if (controller != null) {
+            controller.setAppearanceLightStatusBars(true);
+        }
+
         setContentView(R.layout.activity_main);
         mediaPlayer = MediaPlayer.create(this, R.raw.music);
         mediaPlayer.setLooping(true);
@@ -29,13 +47,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mediaPlayer.isPlaying()) mediaPlayer.pause();
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!mediaPlayer.isPlaying()){
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.music);
+            mediaPlayer.setLooping(true);
+        }
+        if (!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
         }
     }
@@ -43,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaPlayer.release();
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     public void ChangeSize(View view) {
@@ -80,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void ShowRecordTable(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Таблица рекордов");
+        builder.setTitle("Table of Records");
         builder.setIcon(android.R.drawable.btn_star);
-        String recordString = "Рекорды для каждого режима игры:\n\n2x2 - ";
+        String recordString = "Records for every modes:\n\n2x2 - ";
         SharedPreferences RecordTime;
         RecordTime = getSharedPreferences("RecordTime2x2", MODE_PRIVATE);
         recordString += RecordTime.getString("RecordTime2x2", "00:00");
@@ -96,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         RecordTime = getSharedPreferences("RecordTime5x5", MODE_PRIVATE);
         recordString += RecordTime.getString("RecordTime5x5", "00:00");
         builder.setMessage(recordString);
-        builder.setPositiveButton("Закрыть", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }
